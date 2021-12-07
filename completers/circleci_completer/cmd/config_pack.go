@@ -14,4 +14,8 @@ var config_packCmd = &cobra.Command{
 func init() {
 	carapace.Gen(config_packCmd).Standalone()
 	configCmd.AddCommand(config_packCmd)
+
+	carapace.Gen(config_packCmd).PositionalCompletion(
+		carapace.ActionFiles(),
+	)
 }

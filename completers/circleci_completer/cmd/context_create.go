@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/rsteube/carapace"
+	"github.com/rsteube/carapace-bin/completers/circleci_completer/cmd/action"
 	"github.com/spf13/cobra"
 )
 
@@ -14,4 +15,9 @@ var context_createCmd = &cobra.Command{
 func init() {
 	carapace.Gen(context_createCmd).Standalone()
 	contextCmd.AddCommand(context_createCmd)
+
+	// TODO org/context
+	carapace.Gen(context_createCmd).PositionalCompletion(
+		action.ActionVcsTypes(),
+	)
 }
