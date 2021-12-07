@@ -23,3 +23,10 @@ func ActionOrbs() carapace.Action {
 		return carapace.ActionValuesDescribed(vals...)
 	}).Cache(24 * time.Hour)
 }
+
+func ActionOrbCategories() carapace.Action {
+	return carapace.ActionExecCommand("circleci", "orb", "list-categories")(func(output []byte) carapace.Action {
+		lines := strings.Split(string(output), "\n")
+		return carapace.ActionValues(lines[:len(lines)-1]...)
+	})
+}
