@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/rsteube/carapace"
+	"github.com/rsteube/carapace-bin/completers/circleci_completer/cmd/action"
 	"github.com/spf13/cobra"
 )
 
@@ -14,4 +15,9 @@ var context_storeSecretCmd = &cobra.Command{
 func init() {
 	carapace.Gen(context_storeSecretCmd).Standalone()
 	contextCmd.AddCommand(context_storeSecretCmd)
+
+	// TODO org/context/secret
+	carapace.Gen(context_storeSecretCmd).PositionalCompletion(
+		action.ActionVcsTypes(),
+	)
 }
