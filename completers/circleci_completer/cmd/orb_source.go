@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/rsteube/carapace"
+	"github.com/rsteube/carapace-bin/completers/circleci_completer/cmd/action"
 	"github.com/spf13/cobra"
 )
 
@@ -14,4 +15,8 @@ var orb_sourceCmd = &cobra.Command{
 func init() {
 	carapace.Gen(orb_sourceCmd).Standalone()
 	orbCmd.AddCommand(orb_sourceCmd)
+
+	carapace.Gen(orb_sourceCmd).PositionalCompletion(
+		action.ActionOrbs(),
+	)
 }
