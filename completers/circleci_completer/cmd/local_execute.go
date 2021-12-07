@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/rsteube/carapace"
+	"github.com/rsteube/carapace-bin/pkg/actions/tools/git"
 	"github.com/spf13/cobra"
 )
 
@@ -26,4 +27,16 @@ func init() {
 	local_executeCmd.Flags().Bool("skip-checkout", true, "use local path as-is")
 	local_executeCmd.Flags().StringArrayP("volume", "v", []string{}, "Volume bind-mounting")
 	localCmd.AddCommand(local_executeCmd)
+
+	// TODO flag completion
+	carapace.Gen(local_executeCmd).FlagCompletion(carapace.ActionMap{
+		"branch": carapace.ActionCallback(func(c carapace.Context) carapace.Action {
+			if flag := local_executeCmd.Flag("repo-url"); flag.Changed {
+				return git.ActionLsRemoteRefs(flag.Value.String(), git.LsRemoteRefOption{Branches: true, Tags: true})
+			}
+			return carapace.ActionValues()
+		}),
+		"checkout-key": carapace.ActionFiles(),
+		"config":       carapace.ActionFiles(),
+	})
 }

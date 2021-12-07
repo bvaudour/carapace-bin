@@ -19,4 +19,8 @@ func init() {
 	orb_listCmd.PersistentFlags().String("sort", "", "one of \"builds\"|\"projects\"|\"orgs\"")
 	orb_listCmd.PersistentFlags().BoolP("uncertified", "u", false, "include uncertified orbs")
 	orbCmd.AddCommand(orb_listCmd)
+
+	carapace.Gen(orb_listCmd).FlagCompletion(carapace.ActionMap{
+		"sort": carapace.ActionValues("builds", "projects", "orgs"),
+	})
 }

@@ -16,4 +16,12 @@ func init() {
 	config_processCmd.Flags().StringP("org-slug", "o", "", "organization slug (for example: github/example-org), used when a config depends on private orbs belonging to that org")
 	config_processCmd.Flags().String("pipeline-parameters", "", "YAML/JSON map of pipeline parameters, accepts either YAML/JSON directly or file path (for example: my-params.yml)")
 	configCmd.AddCommand(config_processCmd)
+
+	carapace.Gen(config_processCmd).FlagCompletion(carapace.ActionMap{
+		"pipeline-parameters": carapace.ActionFiles(),
+	})
+
+	carapace.Gen(config_processCmd).PositionalCompletion(
+		carapace.ActionFiles(),
+	)
 }
