@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/rsteube/carapace"
 	"github.com/rsteube/carapace-bin/completers/circleci_completer/cmd/action"
+	"github.com/rsteube/carapace-bin/pkg/actions/tools/gh"
 	"github.com/spf13/cobra"
 )
 
@@ -19,5 +20,11 @@ func init() {
 	// TODO org-name
 	carapace.Gen(context_listCmd).PositionalCompletion(
 		action.ActionVcsTypes(),
+		carapace.ActionCallback(func(c carapace.Context) carapace.Action {
+			if c.Args[0] == "github" {
+				return gh.ActionUsers(false, true)
+			}
+			return carapace.ActionValues()
+		}),
 	)
 }
